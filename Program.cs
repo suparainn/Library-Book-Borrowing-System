@@ -18,13 +18,13 @@ class Program
         {
             Console.WriteLine();
             Console.WriteLine("MAIN MENU");
-            Console.WriteLine("1. AND Gate");
-            Console.WriteLine("2. OR Gate");
-            Console.WriteLine("3. NOT Gate");
-            Console.WriteLine("4. NAND Gate");
-            Console.WriteLine("5. NOR Gate");
-            Console.WriteLine("6. XOR Gate");
-            Console.WriteLine("7. XNOR Gate");
+            Console.WriteLine("1. Borrowing Approval");
+            Console.WriteLine("2. Library Access Control");
+            Console.WriteLine("3. Overdue Check");
+            Console.WriteLine("4. Security Lock");
+            Console.WriteLine("5. Restricted Access Check");
+            Console.WriteLine("6. Verification Check");
+            Console.WriteLine("7. Payment Consistency Check");
             Console.WriteLine("8. Show Truth Table");
             Console.WriteLine("9. Exit");
             Console.Write("Choose an option: ");
@@ -43,25 +43,25 @@ class Program
             switch (choice)
             {
                 case 1:
-                    AndGateMenu();
+                    BorrowingApprovalFeature();
                     break;
                 case 2:
-                    OrGateMenu();
+                    LibraryAccessFeature();
                     break;
                 case 3:
-                    NotGateMenu();
+                    OverdueCheckFeature();
                     break;
                 case 4:
-                    NandGateMenu();
+                    SecurityLockFeature();
                     break;
                 case 5:
-                    NorGateMenu();
+                    RestrictedAccessFeature();
                     break;
                 case 6:
-                    XorGateMenu();
+                    VerificationFeature();
                     break;
                 case 7:
-                    XnorGateMenu();
+                    PaymentConsistencyFeature();
                     break;
                 case 8:
                     ShowTruthTable();
@@ -81,7 +81,7 @@ class Program
     {
         while (true)
         {
-            Console.Write(message + " (0 or 1): ");
+            Console.Write(message + " (Enter 0 or 1): ");
             string input = Console.ReadLine();
 
             if (input == "0" || input == "1")
@@ -130,21 +130,23 @@ class Program
         return a == b ? 1 : 0;
     }
 
-    static void ShowResult(string gateName, int a, int b, int result, string decision)
+    static void ShowFeatureResult(string featureName, string featureDescription, int a, int b, int result, string decision)
     {
         Console.WriteLine();
         Console.WriteLine("========================================");
         Console.WriteLine("Selected Computing Platform: Web Platform");
         Console.WriteLine("System: Library Book Borrowing System");
-        Console.WriteLine("Selected Logic Gate: " + gateName);
+        Console.WriteLine("Feature: " + featureName);
+        Console.WriteLine("Description: " + featureDescription);
         Console.WriteLine("Input A: " + a);
         Console.WriteLine("Input B: " + b);
-        Console.WriteLine("Logic Gate Result: " + result);
+        Console.WriteLine("Result: " + result);
         Console.WriteLine("System Decision: " + decision);
         Console.WriteLine("========================================");
     }
 
-    static void AndGateMenu()
+    // Feature 1: Borrowing Approval -> uses AND
+    static void BorrowingApprovalFeature()
     {
         int accountActive = GetBinaryInput("Account Active");
         int bookAvailable = GetBinaryInput("Book Available");
@@ -152,13 +154,14 @@ class Program
         int result = AndGate(accountActive, bookAvailable);
 
         string decision = (result == 1)
-            ? "BORROW APPROVED. The student can borrow the book."
-            : "BORROW DENIED. The account must be active and the book must be available.";
+            ? "Borrow approved. Student can borrow the book."
+            : "Borrow denied. Account must be active and the book must be available.";
 
-        ShowResult("AND", accountActive, bookAvailable, result, decision);
+        ShowFeatureResult("Borrowing Approval", "A student can borrow only when the account is active and the book is available.", accountActive, bookAvailable, result, decision);
     }
 
-    static void OrGateMenu()
+    // Feature 2: Library Access Control -> uses OR
+    static void LibraryAccessFeature()
     {
         int hasLibraryCard = GetBinaryInput("Has Library Card");
         int isStaff = GetBinaryInput("Is Staff Member");
@@ -166,26 +169,28 @@ class Program
         int result = OrGate(hasLibraryCard, isStaff);
 
         string decision = (result == 1)
-            ? "ACCESS GRANTED. The user has a library card or staff access."
-            : "ACCESS DENIED. The user must have either a library card or staff status.";
+            ? "Library access granted. User has a library card or staff access."
+            : "Library access denied. User must have either a library card or staff status.";
 
-        ShowResult("OR", hasLibraryCard, isStaff, result, decision);
+        ShowFeatureResult("Library Access Control", "A user can access library services if they have a library card or are staff.", hasLibraryCard, isStaff, result, decision);
     }
 
-    static void NotGateMenu()
+    // Feature 3: Overdue Check -> uses NOT
+    static void OverdueCheckFeature()
     {
         int overdue = GetBinaryInput("Overdue Status");
 
         int result = NotGate(overdue);
 
         string decision = (result == 1)
-            ? "NOT OVERDUE. Borrowing is allowed."
-            : "OVERDUE. Borrowing is not allowed.";
+            ? "User is not overdue. Borrowing is allowed."
+            : "User is overdue. Borrowing is not allowed.";
 
-        ShowResult("NOT", overdue, 0, result, decision);
+        ShowFeatureResult("Overdue Check", "A user may borrow only if they are not overdue.", overdue, 0, result, decision);
     }
 
-    static void NandGateMenu()
+    // Feature 4: Security Lock -> uses NAND
+    static void SecurityLockFeature()
     {
         int accountActive = GetBinaryInput("Account Active");
         int bookAvailable = GetBinaryInput("Book Available");
@@ -193,13 +198,14 @@ class Program
         int result = NandGate(accountActive, bookAvailable);
 
         string decision = (result == 1)
-            ? "NOT (Account Active AND Book Available) is true. Borrowing is not allowed under the normal rule."
-            : "The AND condition was true, so the NAND result is 0.";
+            ? "Security override allowed. Borrowing under restricted mode is not blocked."
+            : "Security lock triggered. Borrowing is blocked because the system detected a protected condition.";
 
-        ShowResult("NAND", accountActive, bookAvailable, result, decision);
+        ShowFeatureResult("Security Lock", "Emergency library security checks block borrowing when both conditions are active in a restricted system.", accountActive, bookAvailable, result, decision);
     }
 
-    static void NorGateMenu()
+    // Feature 5: Restricted Access Check -> uses NOR
+    static void RestrictedAccessFeature()
     {
         int membershipValid = GetBinaryInput("Membership Valid");
         int reservationActive = GetBinaryInput("Reservation Active");
@@ -207,13 +213,14 @@ class Program
         int result = NorGate(membershipValid, reservationActive);
 
         string decision = (result == 1)
-            ? "NEITHER condition is valid. Access is restricted."
-            : "At least one condition is true, so access is not fully restricted.";
+            ? "Restricted access triggered. User is denied because both conditions are false."
+            : "Access allowed. At least one condition is valid.";
 
-        ShowResult("NOR", membershipValid, reservationActive, result, decision);
+        ShowFeatureResult("Restricted Access Check", "The system denies access if neither membership is valid nor reservation is active.", membershipValid, reservationActive, result, decision);
     }
 
-    static void XorGateMenu()
+    // Feature 6: Verification Check -> uses XOR
+    static void VerificationFeature()
     {
         int accountVerified = GetBinaryInput("Account Verified");
         int idVerified = GetBinaryInput("ID Verified");
@@ -221,13 +228,14 @@ class Program
         int result = XorGate(accountVerified, idVerified);
 
         string decision = (result == 1)
-            ? "ONLY ONE verification condition is true. The verification status is mixed."
-            : "Both verification conditions are the same. Verification status is consistent.";
+            ? "Verification succeeded. Exactly one method is true."
+            : "Verification failed. Both conditions are the same or neither is true.";
 
-        ShowResult("XOR", accountVerified, idVerified, result, decision);
+        ShowFeatureResult("Verification Check", "For special borrowing cases, exactly one verification method should be true.", accountVerified, idVerified, result, decision);
     }
 
-    static void XnorGateMenu()
+    // Feature 7: Payment Consistency Check -> uses XNOR
+    static void PaymentConsistencyFeature()
     {
         int membershipValid = GetBinaryInput("Membership Valid");
         int paymentUpdated = GetBinaryInput("Payment Updated");
@@ -235,12 +243,13 @@ class Program
         int result = XnorGate(membershipValid, paymentUpdated);
 
         string decision = (result == 1)
-            ? "Both conditions match. Borrowing process is valid and consistent."
-            : "The conditions do not match. Borrowing process is inconsistent.";
+            ? "Payment and membership are consistent. System status is valid."
+            : "Payment and membership are inconsistent. User must fix their records.";
 
-        ShowResult("XNOR", membershipValid, paymentUpdated, result, decision);
+        ShowFeatureResult("Payment Consistency Check", "Membership and payment status should match. Both must be valid or both must be invalid.", membershipValid, paymentUpdated, result, decision);
     }
 
+    // Truth Table for all 7 logic gates
     static void ShowTruthTable()
     {
         Console.WriteLine();
