@@ -5,11 +5,11 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("========================================");
-        Console.WriteLine(" WEB PLATFORM: LIBRARY BOOK BORROWING SYSTEM");
+        Console.WriteLine("WEB PLATFORM: LIBRARY BOOK BORROWING SYSTEM");
         Console.WriteLine("========================================");
-        Console.WriteLine("Platform: Web Platform");
+        Console.WriteLine("Project Title: Library Book Borrowing System");
+        Console.WriteLine("Selected Computing Platform: Web Platform");
         Console.WriteLine("System: Library Book Borrowing System");
-        Console.WriteLine("Description: A library website checks whether a user can borrow a book.");
         Console.WriteLine("========================================");
 
         int choice;
@@ -43,25 +43,25 @@ class Program
             switch (choice)
             {
                 case 1:
-                    RunAndGate();
+                    AndGateMenu();
                     break;
                 case 2:
-                    RunOrGate();
+                    OrGateMenu();
                     break;
                 case 3:
-                    RunNotGate();
+                    NotGateMenu();
                     break;
                 case 4:
-                    RunNandGate();
+                    NandGateMenu();
                     break;
                 case 5:
-                    RunNorGate();
+                    NorGateMenu();
                     break;
                 case 6:
-                    RunXorGate();
+                    XorGateMenu();
                     break;
                 case 7:
-                    RunXnorGate();
+                    XnorGateMenu();
                     break;
                 case 8:
                     ShowTruthTable();
@@ -77,11 +77,11 @@ class Program
         } while (choice != 9);
     }
 
-    static int GetBinaryInput(string prompt)
+    static int GetBinaryInput(string message)
     {
         while (true)
         {
-            Console.Write(prompt + " (Enter 0 or 1): ");
+            Console.Write(message + " (0 or 1): ");
             string input = Console.ReadLine();
 
             if (input == "0" || input == "1")
@@ -130,11 +130,11 @@ class Program
         return a == b ? 1 : 0;
     }
 
-    static void ShowGateResult(string gateName, int a, int b, int result, string decision)
+    static void ShowResult(string gateName, int a, int b, int result, string decision)
     {
         Console.WriteLine();
         Console.WriteLine("========================================");
-        Console.WriteLine("Selected Platform: Web Platform");
+        Console.WriteLine("Selected Computing Platform: Web Platform");
         Console.WriteLine("System: Library Book Borrowing System");
         Console.WriteLine("Selected Logic Gate: " + gateName);
         Console.WriteLine("Input A: " + a);
@@ -144,7 +144,7 @@ class Program
         Console.WriteLine("========================================");
     }
 
-    static void RunAndGate()
+    static void AndGateMenu()
     {
         int accountActive = GetBinaryInput("Account Active");
         int bookAvailable = GetBinaryInput("Book Available");
@@ -152,13 +152,13 @@ class Program
         int result = AndGate(accountActive, bookAvailable);
 
         string decision = (result == 1)
-            ? "Borrow request approved. The student can borrow the book."
-            : "Borrow request denied. Account must be active and the book must be available.";
+            ? "BORROW APPROVED. The student can borrow the book."
+            : "BORROW DENIED. The account must be active and the book must be available.";
 
-        ShowGateResult("AND", accountActive, bookAvailable, result, decision);
+        ShowResult("AND", accountActive, bookAvailable, result, decision);
     }
 
-    static void RunOrGate()
+    static void OrGateMenu()
     {
         int hasLibraryCard = GetBinaryInput("Has Library Card");
         int isStaff = GetBinaryInput("Is Staff Member");
@@ -166,26 +166,26 @@ class Program
         int result = OrGate(hasLibraryCard, isStaff);
 
         string decision = (result == 1)
-            ? "Access granted. The user has a library card or staff access."
-            : "Access denied. The user must have either a library card or staff status.";
+            ? "ACCESS GRANTED. The user has a library card or staff access."
+            : "ACCESS DENIED. The user must have either a library card or staff status.";
 
-        ShowGateResult("OR", hasLibraryCard, isStaff, result, decision);
+        ShowResult("OR", hasLibraryCard, isStaff, result, decision);
     }
 
-    static void RunNotGate()
+    static void NotGateMenu()
     {
-        int overdueStatus = GetBinaryInput("Overdue Status (1 = overdue, 0 = not overdue)");
+        int overdue = GetBinaryInput("Overdue Status");
 
-        int result = NotGate(overdueStatus);
+        int result = NotGate(overdue);
 
         string decision = (result == 1)
-            ? "The user is not overdue. Borrowing is allowed."
-            : "The user is overdue. Borrowing is not allowed.";
+            ? "NOT OVERDUE. Borrowing is allowed."
+            : "OVERDUE. Borrowing is not allowed.";
 
-        ShowGateResult("NOT", overdueStatus, 0, result, decision);
+        ShowResult("NOT", overdue, 0, result, decision);
     }
 
-    static void RunNandGate()
+    static void NandGateMenu()
     {
         int accountActive = GetBinaryInput("Account Active");
         int bookAvailable = GetBinaryInput("Book Available");
@@ -196,10 +196,10 @@ class Program
             ? "NOT (Account Active AND Book Available) is true. Borrowing is not allowed under the normal rule."
             : "The AND condition was true, so the NAND result is 0.";
 
-        ShowGateResult("NAND", accountActive, bookAvailable, result, decision);
+        ShowResult("NAND", accountActive, bookAvailable, result, decision);
     }
 
-    static void RunNorGate()
+    static void NorGateMenu()
     {
         int membershipValid = GetBinaryInput("Membership Valid");
         int reservationActive = GetBinaryInput("Reservation Active");
@@ -207,13 +207,13 @@ class Program
         int result = NorGate(membershipValid, reservationActive);
 
         string decision = (result == 1)
-            ? "Neither membership nor reservation is valid. Access is restricted."
+            ? "NEITHER condition is valid. Access is restricted."
             : "At least one condition is true, so access is not fully restricted.";
 
-        ShowGateResult("NOR", membershipValid, reservationActive, result, decision);
+        ShowResult("NOR", membershipValid, reservationActive, result, decision);
     }
 
-    static void RunXorGate()
+    static void XorGateMenu()
     {
         int accountVerified = GetBinaryInput("Account Verified");
         int idVerified = GetBinaryInput("ID Verified");
@@ -221,13 +221,13 @@ class Program
         int result = XorGate(accountVerified, idVerified);
 
         string decision = (result == 1)
-            ? "Only one verification condition is true. Verification status is mixed."
+            ? "ONLY ONE verification condition is true. The verification status is mixed."
             : "Both verification conditions are the same. Verification status is consistent.";
 
-        ShowGateResult("XOR", accountVerified, idVerified, result, decision);
+        ShowResult("XOR", accountVerified, idVerified, result, decision);
     }
 
-    static void RunXnorGate()
+    static void XnorGateMenu()
     {
         int membershipValid = GetBinaryInput("Membership Valid");
         int paymentUpdated = GetBinaryInput("Payment Updated");
@@ -238,7 +238,7 @@ class Program
             ? "Both conditions match. Borrowing process is valid and consistent."
             : "The conditions do not match. Borrowing process is inconsistent.";
 
-        ShowGateResult("XNOR", membershipValid, paymentUpdated, result, decision);
+        ShowResult("XNOR", membershipValid, paymentUpdated, result, decision);
     }
 
     static void ShowTruthTable()
@@ -250,11 +250,9 @@ class Program
         Console.WriteLine("A   B   AND  OR  NOT(A) NAND NOR XOR XNOR");
         Console.WriteLine("----------------------------------------");
 
-        int[] values = { 0, 1 };
-
-        foreach (int a in values)
+        for (int a = 0; a <= 1; a++)
         {
-            foreach (int b in values)
+            for (int b = 0; b <= 1; b++)
             {
                 int andResult = AndGate(a, b);
                 int orResult = OrGate(a, b);
